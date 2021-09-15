@@ -1,0 +1,83 @@
+  # nrf52dk-6:
+  #   nrf52dk-1:
+  #     nrf52840dk-8:
+  #       nrf52dk-5:
+  #     nrf52dk-7:
+  #       nrf52840dk-10:
+  #   nrf52dk-8:
+  #     nrf52dk-9:
+  #     nrf52dk-4:
+  #       nrf52840dk-6:
+  #   nrf52840dk-7:
+  #     nrf52dk-2:
+  #       nrf52840dk-9:
+  #       nrf52dk-10:
+  #     nrf52dk-3:
+
+nrf52dk-6:
+  role: "root"
+  addr: "32:6"
+  c:
+    - nrf52dk-1
+    - nrf52dk-8
+    - nrf52840dk-7
+
+nrf52dk-1:
+  addr: "32:1"
+  c:
+    - nrf52840dk-8
+    - nrf52dk-7
+
+nrf52840dk-8:
+  addr: "40:8"
+  c:
+    - nrf52dk-5
+
+nrf52dk-5:
+  addr: "32:5"
+
+nrf52dk-7:
+  addr: "32:7"
+  c:
+    - nrf52840dk-10
+
+nrf52840dk-10:
+  addr: "40:10"
+
+nrf52dk-8:
+  addr: "32:8"
+  c:
+    - nrf52dk-9
+    - nrf52dk-4
+
+nrf52dk-9:
+  addr: "32:9"
+
+nrf52dk-4:
+  addr: "32:4"
+  c:
+    - nrf52840dk-6
+
+nrf52840dk-6:
+  addr: "40:6"
+
+nrf52840dk-7:
+  addr: "40:7"
+  c:
+    - nrf52dk-2
+    - nrf52dk-3
+
+nrf52dk-2:
+  addr: "32:2"
+  c:
+    - nrf52840dk-9
+    - nrf52dk-10
+
+nrf52840dk-9:
+  addr: "40:9"
+
+nrf52dk-10:
+  addr: "32:10"
+
+nrf52dk-3:
+  addr: "32:3"

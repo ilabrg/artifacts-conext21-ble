@@ -1,0 +1,11 @@
+setup: "exp/setup_statconn-static.yml"
+env:
+  DEVELHELP: 1
+  NIMBLE_MAX_CONN: 3
+  EXP_BUILD_CONFIG: "env_i1990r2010.inc.mk"
+  EXP_NIM_CONFIG: "env_nim_csa1.inc.mk"
+expvars:
+  - "expvars/itvl_1s.yml"
+  - "expvars/dur_1h.yml"
+  - "expvars/paylen_39.yml"
+exp: "exp/cmd_putnon_many2one.yml"

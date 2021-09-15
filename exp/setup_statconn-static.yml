@@ -1,0 +1,46 @@
+site: saclay
+
+setup:
+  - name: exp_statconn
+    nodes: nrf52dk-1-10+nrf52840dk-6-10
+    fwpath: ./app_statconn
+
+expvars:
+  IF: 8
+  PREFIX: "2001:affe"
+  SINKIP: "2001:affe::32:6"
+  SINK: "nrf52dk-6"
+  PROD: "nrf52dk-1-5,7-10+nrf52840dk-6-10"
+
+topologies:
+  3hop_tree: "expvars/topo_15dks_3hop.yml"
+
+exp_setup:
+  - topo_ble:
+      name: "3hop_tree"
+    sleep: 60
+  - topo_ip_tree:
+      name: "3hop_tree"
+      dflt: "{SINKIP}"
+      prefix: "{PREFIX}"
+      if: "{IF}"
+    sleep: 60
+
+  - cmd: "ps"
+    sleep: 1
+  - cmd: "ble info"
+    sleep: 1
+  - cmd: "ifconfig"
+    sleep: 1
+  - cmd: "nib route show"
+    sleep: 1
+
+exp_teardown:
+  - cmd: "ps"
+    sleep: 1
+  - cmd: "ble info"
+    sleep: 1
+  - cmd: "ifconfig"
+    sleep: 1
+  - cmd: "nib route show"
+    sleep: 1

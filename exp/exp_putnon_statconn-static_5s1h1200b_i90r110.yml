@@ -1,0 +1,11 @@
+setup: "exp/setup_statconn-static.yml"
+env:
+  DEVELHELP: 1
+  NIMBLE_MAX_CONN: 3
+  EXP_BUILD_CONFIG: "env_i90r110.inc.mk"
+  EXP_BUF_CONFIG: "env_buf_large.inc.mk"
+expvars:
+  - "expvars/itvl_5s.yml"
+  - "expvars/dur_1h.yml"
+  - "expvars/paylen_1200.yml"
+exp: "exp/cmd_putnon_many2one.yml"

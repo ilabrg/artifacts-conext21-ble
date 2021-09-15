@@ -1,0 +1,458 @@
+saclay:
+  microbit-1:
+    id: 30
+    uri: microbit-1.saclay.iot-lab.info
+    board: microbit
+
+  nrf51dk-1:
+    id: 31
+    uri: nrf51dk-1.saclay.iot-lab.info
+    board: nrf51dk
+  nrf51dk-2:
+    id: 32
+    uri: nrf51dk-2.saclay.iot-lab.info
+    board: nrf51dk
+  nrf51dk-3:
+    id: 33
+    uri: nrf51dk-3.saclay.iot-lab.info
+    board: nrf51dk
+  nrf51dk-4:
+    id: 34
+    uri: nrf51dk-4.saclay.iot-lab.info
+    board: nrf51dk
+  nrf51dk-5:
+    id: 35
+    uri: nrf51dk-5.saclay.iot-lab.info
+    board: nrf51dk
+
+  nrf52832mdk-1:
+    id: 21
+    uri: nrf52832mdk-1.saclay.iot-lab.info
+    board: nrf52832-mdk
+    addr_mac: F7:61:A5:D8:CB:A5
+    addr_l2: fe80::f761:a5ff:fed8:cba5
+
+  nrf52dk-1:
+    id: 1
+    uri: nrf52dk-1.saclay.iot-lab.info
+    board: nrf52dk
+    addr_mac: c1:d4:80:83:11:cd
+    addr_l2: fe80::c1d4:80ff:fe83:11cd
+  nrf52dk-2:
+    id: 2
+    uri: nrf52dk-2.saclay.iot-lab.info
+    board: nrf52dk
+    addr_mac: ee:60:d2:d5:d2:bd
+    addr_l2: fe80::ee60:d2ff:fed5:d2bd
+  nrf52dk-3:
+    id: 3
+    uri: nrf52dk-3.saclay.iot-lab.info
+    board: nrf52dk
+    addr_mac: f2:94:bf:4d:67:06
+    addr_l2: fe80::f294:bfff:fe4d:6706
+  nrf52dk-4:
+    id: 4
+    uri: nrf52dk-4.saclay.iot-lab.info
+    board: nrf52dk
+    addr_mac: cc:c3:ca:2b:de:a0
+    addr_l2: fe80::ccc3:caff:fe2b:dea0
+  nrf52dk-5:
+    id: 5
+    uri: nrf52dk-5.saclay.iot-lab.info
+    board: nrf52dk
+    addr_mac: e7:3e:ba:3f:7f:bc
+    addr_l2: fe80::e73e:baff:fe3f:7fbc
+  nrf52dk-6:
+    id: 6
+    uri: nrf52dk-6.saclay.iot-lab.info
+    board: nrf52dk
+    addr_mac: e1:79:0f:15:5c:1d
+    addr_l2: fe80::e179:0fff:fe15:5c1d
+  nrf52dk-7:
+    id: 7
+    uri: nrf52dk-7.saclay.iot-lab.info
+    board: nrf52dk
+    addr_mac: ef:3b:d4:07:bd:46
+    addr_l2: fe80::ef3b:d4ff:fe07:bd46
+  nrf52dk-8:
+    id: 8
+    uri: nrf52dk-8.saclay.iot-lab.info
+    board: nrf52dk
+    addr_mac: f6:b5:5d:7b:7c:8e
+    addr_l2: fe80::f6b5:5dff:fe7b:7c8e
+  nrf52dk-9:
+    id: 9
+    uri: nrf52dk-9.saclay.iot-lab.info
+    board: nrf52dk
+    addr_mac: e1:b3:89:e5:5d:4f
+    addr_l2: fe80::e1b3:89ff:fee5:5d4f
+  nrf52dk-10:
+    id: 10
+    uri: nrf52dk-10.saclay.iot-lab.info
+    board: nrf52dk
+    addr_mac: cd:90:67:3d:f7:7c
+    addr_l2: fe80::cd90:67ff:fe3d:f77c
+
+  nrf52840mdk-1:
+    id: 22
+    uri: nrf52840mdk-1.saclay.iot-lab.info
+    board: nrf52840-mdk
+    addr_mac: FA:92:C7:D2:D5:73
+    addr_l2: fe80::fa92:c7ff:fed2:d573
+
+  nrf52840dk-1:
+    id: 11
+    uri: nrf52840dk-1.saclay.iot-lab.info
+    board: nrf52840dk
+    addr_mac: c8:48:eb:da:30:68
+    addr_l2: fe80::c848:ebff:feda:3068
+  nrf52840dk-2:
+    id: 12
+    uri: nrf52840dk-2.saclay.iot-lab.info
+    board: nrf52840dk
+    addr_mac: dc:ad:f8:0b:02:7c
+    addr_l2: fe80::dcad:f8ff:fe0b:027c
+  nrf52840dk-3:
+    id: 13
+    uri: nrf52840dk-3.saclay.iot-lab.info
+    board: nrf52840dk
+    addr_mac: e4:ad:e6:18:b5:c1
+    addr_l2: fe80::e4ad:e6ff:fe18:b5c1
+  nrf52840dk-4:
+    id: 14
+    uri: nrf52840dk-4.saclay.iot-lab.info
+    board: nrf52840dk
+    addr_mac: d4:30:61:af:a2:f4
+    addr_l2: fe80::d430:61ff:feaf:a2f4
+  nrf52840dk-5:
+    id: 15
+    uri: nrf52840dk-5.saclay.iot-lab.info
+    board: nrf52840dk
+    addr_mac: ca:b4:85:0f:61:2e
+    addr_l2: fe80::cab4:85ff:fe0f:612e
+  nrf52840dk-6:
+    id: 16
+    uri: nrf52840dk-6.saclay.iot-lab.info
+    board: nrf52840dk
+    addr_mac: d4:5e:85:1f:7a:6b
+    addr_l2: fe80::d45e:85ff:fe1f:7a6b
+  nrf52840dk-7:
+    id: 17
+    uri: nrf52840dk-7.saclay.iot-lab.info
+    board: nrf52840dk
+    addr_mac: dd:5d:5d:c5:2a:d1
+    addr_l2: fe80::dd5d:5dff:fec5:2ad1
+  nrf52840dk-8:
+    id: 18
+    uri: nrf52840dk-8.saclay.iot-lab.info
+    board: nrf52840dk
+    addr_mac: fd:72:5c:84:5d:74
+    addr_l2: fe80::fd72:5cff:fe84:5d74
+  nrf52840dk-9:
+    id: 19
+    uri: nrf52840dk-9.saclay.iot-lab.info
+    board: nrf52840dk
+    addr_mac: c7:b5:87:29:c0:7f
+    addr_l2: fe80::c7b5:87ff:fe29:c07f
+  nrf52840dk-10:
+    id: 20
+    uri: nrf52840dk-10.saclay.iot-lab.info
+    board: nrf52840dk
+    addr_mac: c0:c3:35:1d:b0:4d
+    addr_l2: fe80::c0c3:35ff:fe1d:b04d
+
+  m3-1:
+    uri: m3-1.saclay.iot-lab.info
+    board: iotlab-m3
+  m3-2:
+    uri: m3-2.saclay.iot-lab.info
+    board: iotlab-m3
+  m3-3:
+    uri: m3-3.saclay.iot-lab.info
+    board: iotlab-m3
+  m3-4:
+    uri: m3-4.saclay.iot-lab.info
+    board: iotlab-m3
+  m3-5:
+    uri: m3-5.saclay.iot-lab.info
+    board: iotlab-m3
+  m3-6:
+    uri: m3-6.saclay.iot-lab.info
+    board: iotlab-m3
+  m3-7:
+    uri: m3-7.saclay.iot-lab.info
+    board: iotlab-m3
+  m3-8:
+    uri: m3-8.saclay.iot-lab.info
+    board: iotlab-m3
+  m3-9:
+    uri: m3-9.saclay.iot-lab.info
+    board: iotlab-m3
+  m3-10:
+    uri: m3-10.saclay.iot-lab.info
+    board: iotlab-m3
+  m3-11:
+    uri: m3-11.saclay.iot-lab.info
+    board: iotlab-m3
+  m3-12:
+    uri: m3-12.saclay.iot-lab.info
+    board: iotlab-m3
+
+grenoble:
+  m3-18:
+    uri: m3-18.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-21:
+    uri: m3-21.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-23:
+    uri: m3-23.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-25:
+    uri: m3-25.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-29:
+    uri: m3-29.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-30:
+    uri: m3-30.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-31:
+    uri: m3-31.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-32:
+    uri: m3-32.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-33:
+    uri: m3-33.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-35:
+    uri: m3-35.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-37:
+    uri: m3-37.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-38:
+    uri: m3-38.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-39:
+    uri: m3-39.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-40:
+    uri: m3-40.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-45:
+    uri: m3-45.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-46:
+    uri: m3-46.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-47:
+    uri: m3-47.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-48:
+    uri: m3-48.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-49:
+    uri: m3-49.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-50:
+    uri: m3-50.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-51:
+    uri: m3-51.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-52:
+    uri: m3-52.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-53:
+    uri: m3-53.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-54:
+    uri: m3-54.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-55:
+    uri: m3-55.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-56:
+    uri: m3-56.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-57:
+    uri: m3-57.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-58:
+    uri: m3-58.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-59:
+    uri: m3-59.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-60:
+    uri: m3-60.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-61:
+    uri: m3-61.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-62:
+    uri: m3-62.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-63:
+    uri: m3-63.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-64:
+    uri: m3-64.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-65:
+    uri: m3-65.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-66:
+    uri: m3-66.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-67:
+    uri: m3-67.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-68:
+    uri: m3-68.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-69:
+    uri: m3-69.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-70:
+    uri: m3-70.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-71:
+    uri: m3-71.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-72:
+    uri: m3-72.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-73:
+    uri: m3-73.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-74:
+    uri: m3-74.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-75:
+    uri: m3-75.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-76:
+    uri: m3-76.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-77:
+    uri: m3-77.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-78:
+    uri: m3-78.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-79:
+    uri: m3-79.grenoble.iot-lab.info
+    board: iotlab-m3
+  m3-80:
+    uri: m3-80.grenoble.iot-lab.info
+    board: iotlab-m3
+
+strasbourg:
+  m3-2:
+    id: 2
+    uri: m3-2.strasbourg.iot-lab.info
+    board: iotlab-m3
+    addr_mac_long: 52:37:A3:16:FE:DC:12:6B
+    addr_mac: 12:6b
+    addr_l2: fe80::5037:a316:fedc:126b
+  m3-4:
+    id: 4
+    uri: m3-4.strasbourg.iot-lab.info
+    board: iotlab-m3
+    addr_mac_long: 2A:35:54:FA:11:15:12:11
+    addr_mac: 12:11
+    addr_l2: fe80::2835:54fa:1115:1211
+  m3-6:
+    id: 6
+    uri: m3-6.strasbourg.iot-lab.info
+    board: iotlab-m3
+    addr_mac_long: 9E:12:A1:E8:6B:10:17:11
+    addr_mac: 17:11
+    addr_l2: fe80::9c12:a1e8:6b10:1711
+  m3-8:
+    id: 8
+    uri: m3-8.strasbourg.iot-lab.info
+    board: iotlab-m3
+    addr_mac_long: 9E:39:25:7C:11:6B:12:15
+    addr_mac: 12:15
+    addr_l2: fe80::9c39:257c:116b:1215
+  m3-20:
+    id: 20
+    uri: m3-20.strasbourg.iot-lab.info
+    board: iotlab-m3
+    addr_mac_long: FA:11:28:5A:11:15:12:11
+    addr_mac: 12:11
+    addr_l2: fe80::f811:285a:1115:1211
+  m3-22:
+    id: 22
+    uri: m3-22.strasbourg.iot-lab.info
+    board: iotlab-m3
+    addr_mac_long: 16:52:35:AE:FE:DC:12:6B
+    addr_mac: 12:6b
+    addr_l2: fe80::1452:35ae:fedc:126b
+  m3-30:
+    id: 30
+    uri: m3-30.strasbourg.iot-lab.info
+    board: iotlab-m3
+    addr_mac_long: 26:9F:21:7D:11:6B:12:15
+    addr_mac: 12:15
+    addr_l2: fe80::249f:217d:116b:1215
+  m3-32:
+    id: 32
+    uri: m3-32.strasbourg.iot-lab.info
+    board: iotlab-m3
+    addr_mac_long: 12:27:5B:53:6B:26:F6:11
+    addr_mac: 76:11
+    addr_l2: fe80::1027:5b53:6b26:f611
+  m3-34:
+    id: 34
+    uri: m3-34.strasbourg.iot-lab.info
+    board: iotlab-m3
+    addr_mac_long: 26:36:9F:7D:11:6B:12:15
+    addr_mac: 12:15
+    addr_l2: fe80::2436:9f7d:116b:1215
+  m3-48:
+    id: 48
+    uri: m3-48.strasbourg.iot-lab.info
+    board: iotlab-m3
+    addr_mac_long: 56:E2:25:E0:DC:10:13:11
+    addr_mac: 13:11
+    addr_l2: fe80::54e2:25e0:dc10:1311
+  m3-50:
+    id: 50
+    uri: m3-50.strasbourg.iot-lab.info
+    board: iotlab-m3
+    addr_mac_long: CE:A0:9F:12:6B:10:17:11
+    addr_mac: 17:11
+    addr_l2: fe80::cca0:9f12:6b10:1711
+  m3-54:
+    id: 54
+    uri: m3-54.strasbourg.iot-lab.info
+    board: iotlab-m3
+    addr_mac_long: 52:9D:DF:31:10:6B:F7:11
+    addr_mac: 77:11
+    addr_l2: fe80::509d:df31:106b:f711
+  m3-56:
+    id: 56
+    uri: m3-56.strasbourg.iot-lab.info
+    board: iotlab-m3
+    addr_mac_long: FA:54:04:28:11:15:12:11
+    addr_mac: 12:11
+    addr_l2: fe80::f854:428:1115:1211
+  m3-58:
+    id: 58
+    uri: m3-58.strasbourg.iot-lab.info
+    board: iotlab-m3
+    addr_mac_long: 2A:01:54:FA:11:15:12:11
+    addr_mac: 12:11
+    addr_l2: fe80::2801:54fa:1115:1211
+  m3-60:
+    id: 60
+    uri: m3-60.strasbourg.iot-lab.info
+    board: iotlab-m3
+    addr_mac_long: 6A:7E:65:37:15:10:DE:11
+    addr_mac: 5e:11
+    addr_l2: fe80::687e:6537:1510:de11

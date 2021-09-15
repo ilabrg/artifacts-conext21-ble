@@ -1,0 +1,8 @@
+[submodule "lib/RIOT"]
+	path = lib/RIOT
+	url = git@github.com:haukepetersen/RIOT.git
+	branch = conext21
+[submodule "lib/NIMBLE"]
+	path = lib/NIMBLE
+	url = git@github.com:haukepetersen/mynewt-nimble.git
+	branch = conext21

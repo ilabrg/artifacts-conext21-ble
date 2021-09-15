@@ -1,0 +1,4 @@
+exp:
+  - autoid: "{PROD};put-non {SINKIP} {AUTOID} {PAYLOAD} {PROD_DUR} {PROD_ITVL} {PROD_JIT}"
+    sleep: 0.05
+  - sleep: "{PROD_DUR} + {PROD_DUR_MARGIN}"

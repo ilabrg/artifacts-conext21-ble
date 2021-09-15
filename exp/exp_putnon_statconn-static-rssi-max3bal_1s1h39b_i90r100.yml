@@ -1,0 +1,10 @@
+setup: "exp/setup_statconn-static_rssi-max-balanced-3-15n.yml"
+env:
+  DEVELHELP: 1
+  NIMBLE_MAX_CONN: 3
+  EXP_BUILD_CONFIG: "env_i90r110.inc.mk"
+expvars:
+  - "expvars/itvl_1s.yml"
+  - "expvars/dur_1h.yml"
+  - "expvars/paylen_39.yml"
+exp: "exp/cmd_putnon_many2one.yml"

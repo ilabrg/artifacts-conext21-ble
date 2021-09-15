@@ -1,0 +1,22 @@
+export RIOTBASE ?= $(CURDIR)/../../lib/RIOT
+export PKG_SOURCE_LOCAL_NIMBLE ?= $(CURDIR)/../../lib/NIMBLE
+export SHAREBASE ?= $(CURDIR)/../../lib/riot/
+export EXPVARBASE ?= $(CURDIR)/../../expvars
+
+BOARD ?= nrf52dk
+CFLAGS += "-DAPPNAME=\"$(APPLICATION)\""
+
+DEVELHELP ?= 0
+ifneq (0,$(DEVELHELP))
+  CFLAGS += -DLOG_LEVEL=LOG_ALL
+  CFLAGS += -DDEBUG_ASSERT_VERBOSE
+endif
+
+EXP_BUF_CONFIG ?= env_buf_many.inc.mk
+include $(EXPVARBASE)/$(EXP_BUF_CONFIG)
+EXP_NIM_CONFIG ?= env_nim_csa2.inc.mk
+include $(EXPVARBASE)/$(EXP_NIM_CONFIG)
+EXP_GNRC_CONFIG ?= env_gnrc_dflt.inc.mk
+include $(EXPVARBASE)/$(EXP_GNRC_CONFIG)
+EXP_BUILD_CONFIG ?= env_i75_dflt.inc.mk
+include $(EXPVARBASE)/$(EXP_BUILD_CONFIG)
