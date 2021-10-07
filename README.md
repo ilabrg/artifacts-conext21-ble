@@ -111,7 +111,7 @@ Once this succeeds, the toolchain related setup is complete. If you are not able
 ### Run an experiment
 To run a single experiment in the iotlab simply run the included `exp.py` tool and pass the target experiment configuration file as command line argument, e.g.:
 ```
-./exp.py exp/exp_putnon_statcon-static_1s1h39b_i75.yml
+./exp.py exp/exp_putnon_statconn-static_1s1h39b_i75.yml
 ```
 
 This will trigger the following:
