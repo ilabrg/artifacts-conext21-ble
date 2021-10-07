@@ -7,6 +7,8 @@ TMPDIR=$(mktemp -d -t)
 TMPLOGS="logs.zip"
 TMPPLOTS="plots.zip"
 
+[ ! -e results ] && mkdir results
+
 wget -O ${TMPDIR}/${TMPLOGS} ${SRCLOGS}
 unzip ${TMPDIR}/${TMPLOGS} -d ${TMPDIR}
 cp -R ${TMPDIR}/logs ${BASEDIR}/results/
