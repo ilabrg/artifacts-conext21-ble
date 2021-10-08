@@ -88,6 +88,12 @@ git submodule init
 git submodule update
 ```
 
+Alternatively, clone these repositories directly:
+```bash
+git clone --branch conext21 https://github.com/haukepetersen/RIOT lib/RIOT
+git clone --branch conext21 https://github.com/haukepetersen/mynewt-nimble lib/NIMBLE
+```
+
 **7. Install the needed toolchain for building RIOT**
 
 Our experimentation framework creates the needed RIOT binaries locally for each experiment run. In order to build these binaries, your host system must be able to build RIOT. For this, the `arm-none-eabi-gcc` toolchain must be available on the host system.
@@ -105,7 +111,7 @@ Once this succeeds, the toolchain related setup is complete. If you are not able
 ### Run an experiment
 To run a single experiment in the iotlab simply run the included `exp.py` tool and pass the target experiment configuration file as command line argument, e.g.:
 ```
-./exp.py exp/exp_putnon_statcon-static_1s1h39b_i75.yml
+./exp.py exp/exp_putnon_statconn-static_1s1h39b_i75.yml
 ```
 
 This will trigger the following:
