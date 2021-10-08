@@ -8,9 +8,9 @@ The following list gives a high-level rundown on the purpose of each folder in t
 
 - `exp`: this folder contains all the experiment descriptions, as well as the corresponding RIOT applications
 - `expvars`: generic experiment configuration parameter sets like topology descriptions, NimBLE and RIOT buffer configurations, connection parameter sets, ...
-- `lib`: the `lib/exputil` subdirectory contains the custom python libraries for running experiments as well as analyzing experiment logs. The other subdirectories contain RIOT custom RIOT libraries that are build into the RIOT applications.
+- `lib`:  The `lib/riot` subdirectory contains custom RIOT libraries that are build into the RIOT applications and used for logging network events as well as collecting statistical information on a nodes state.
 - `results`: contains the experiment results. The results are structured in three subdirectories:
-  - `results/logs`: the log files of successful experiment runs are stored here
+  - `results/logs`: the log files of successful experiment runs are stored here. See [DATAFORMATS.md](DATAFORMATS.md) for a description on the files formatting.
   - `results/tmp`: while experiments are running the log will be created here. Once an experiment successfully completes, the according logfile is moved to `results/logs`
   - `results/plots`: figures and intermediate data created during the analysis of logfiles.
   - `rsults/figs`: figures created from the aggregated data of 1 to N experiment runs as outputted by the scripts located in `tools`. These are the figures printed in our paper.
