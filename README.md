@@ -98,6 +98,8 @@ git clone --branch conext21 https://github.com/haukepetersen/mynewt-nimble lib/N
 
 Our experimentation framework creates the needed RIOT binaries locally for each experiment run. In order to build these binaries, your host system must be able to build RIOT. For this, the `arm-none-eabi-gcc` toolchain must be available on the host system.
 
+All results used in our work were created with `arm-none-eabi-gcc 9.3.1`.
+
 To check if this is the case, simply try to build RIOTs `hello-world` example application for the `nrf52dk` board:
 ```bash
 # make sure the RIOT submodule is initialized and checked out...
