@@ -26,7 +26,7 @@ sys.path.append(str(Path(os.path.abspath(__file__)).parent.parent))
 import re
 import math
 import copy
-import yaml
+import json
 import argparse
 from datetime import datetime
 from tools.exputil.expbase import Expbase
@@ -120,7 +120,7 @@ class Fig(Expbase):
         path = os.path.join(self.plotdir, file)
         try:
             with open(path, "r", encoding="utf-8") as f:
-                return yaml.load(f, Loader=yaml.SafeLoader)
+                return json.load(f)
         except Exception as e:
             sys.exit("Error: unable to load file {}: {}".format(file, e))
 
