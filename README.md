@@ -13,7 +13,7 @@ The following list gives a high-level rundown on the purpose of each folder in t
   - `results/logs`: the log files of successful experiment runs are stored here. See [DATAFORMATS.md](DATAFORMATS.md) for a description on the files formatting.
   - `results/tmp`: while experiments are running the log will be created here. Once an experiment successfully completes, the according logfile is moved to `results/logs`
   - `results/plots`: figures and intermediate data created during the analysis of logfiles.
-  - `rsults/figs`: figures created from the aggregated data of 1 to N experiment runs as outputted by the scripts located in `tools`. These are the figures printed in our paper.
+  - `results/figs`: figures created from the aggregated data of 1 to N experiment runs as outputted by the scripts located in `tools`. These are the figures printed in our paper.
 - `suites`: put yml files with lists of single experiments into this folder, so runs of more than a single experiment can be automated.
 - `tools`: this folder contains the actual Python code of our experiment framework as well as the specific scripts used to create the figures printed in the paper.
 
@@ -22,16 +22,40 @@ Each experiment run has a unique name as deducted by the filename of the experim
 
 ## How-to use this experiment framework
 
-### Get the RAW experiment data as used in the paper
-All RAW experiment data used in our paper is available via nextcloud: https://box.fu-berlin.de/s/FY4FTE2LTze5KGW
+### Get the raw experiment data as used in the paper
+**NOTE: for the final version of the paper, all used raw and intermediate data will be uploaded to https://zenodo.org/ for long-term storage**
 
-To make this data accessible to our experiment framework and tooling located in this repository, we included a script that will automatically download the RAW data from the nextcloud instance into the `results/logs` and `results/plots` subfolders. Simply run the
+All raw experiment data used in our paper is available via nextcloud: https://box.fu-berlin.de/s/FY4FTE2LTze5KGW
+
+To make this data accessible to our experiment framework and tooling located in this repository, we included a script that will automatically download the raw data from the nextcloud instance into the `results/logs` and `results/plots` subfolders. Simply run the
 ```bash
 ./download_experiment_data.sh
 ```
+
 script located in the root of this repository.
 
 Note: the download my take a while as the script is downloading roughly 2.5Gb of data.
+
+
+### Reproduce the figures printed in the paper
+**NOTE: For the camera-ready version of the paper some existing papers will be updated/extended and new figures will be added. The corresponding scripts will therefore be updated and the table below will adapted accordingly once the final changes have converged.**
+
+Once the raw data has been downloaded, all figures from the paper can be reproduced from the raw data by running the plotting scripts provided in the `tools/` directory of this repository. Each individual result plot in the paper is created by its dedicated plotting script. To maintain reproducibility, the specific raw results used for each plot are hard coded into the scripts source code, hence the scripts are run without any additional parameters.
+
+The following table shows the mapping between figures in the paper and the script used to produce it:
+
+| Figure      | creator script |
+| :--         | :-- |
+| Fig. 7 (a)  | `tools/fig_app_pdr.py` |
+| Fig. 7 (b)  | `tools/fig_app_cdf_linetree.py` |
+| Fig. 8      | `tools/fig_app_cdf_itvlcmp.py` |
+| Fig. 9      | `tools/fig_app_pdr_load.py` |
+| Fig. 10 (a) | `tools/fig_app_pdr_154.py` |
+| Fig. 10 (b) | `tools/fig_app_cdf_154.py` |
+| Fig. 11     | `tools/fig_shading.py` |
+| Fig. 12 (a) | `tools/fig_app_pdr_rand24.py` |
+| Fig. 12 (b) | `tools/fig_ll_pdr_rand24.py` |
+| Fig. 12 (c) | `tools/fig_app_cdf_rand24.py` |
 
 
 ### Howto setup your host system for running experiments
@@ -153,7 +177,9 @@ tools/results.py results/logs/foo/foo_20210901-201500.dump
 This will parse the experiment logfile (this may take a while) and output the following:
 - in the shell window a dump of the most interesting experiment analysis raw data is printed
 - there will be a number matplotlib windows popping up displaying the created result graphs. Simple close each window to continue with the analysis and see the next graph
-- all graphs and the corresponding raw data are also written to `results/plots/exp_foo/exp_foo_20210901-201500-XXX.yyy`
+- all graphs and the corresponding intermediate data are also written to `results/plots/exp_foo/exp_foo_20210901-201500-XXX.yyy`
+
+**Note:** The purpose of these intermediate graphs created by the `results.py` script is mainly to preprocess and validate single experiment runs. The actual plots used in the paper are then build from these intermediate data sets by running the scripts located in the `tools/` folder.
 
 
 ### Create aggregate results of multiple experiments
