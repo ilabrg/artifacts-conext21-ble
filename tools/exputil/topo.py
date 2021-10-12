@@ -44,6 +44,9 @@ class Topo:
 
         self.meshconn = []
 
+        self.re_a = re.compile(r'ble: (?P<evt>[_a-z]+) \((?P<handle>\d+)\|(?P<addr>[0-9a-zA-Z:]+)\)')
+        self.re_b = re.compile(r'ble:(?P<evt>[_a-z]+) (?P<addr>[0-9a-zA-Z:]+) (?P<handle>\d+)')
+
 
     def evt(self, time, evt, node, peer, handle):
         self.conn_evt.append({
@@ -90,14 +93,12 @@ class Topo:
 
 
     def update(self, time, node, output):
-        m = re.search(r'ble: (?P<evt>[_a-z]+) '
-                      r'\((?P<handle>\d+)\|'
-                      r'(?P<addr>[0-9a-zA-Z:]+)\)', output)
+        m = self.re_a.search(output)
         if m:
             peer = self.ana.nodename_from_mac(m.group('addr'))
             self.evt(time, m.group("evt"), node, peer, int(m.group("handle")))
 
-        m = re.search(r'ble:(?P<evt>[_a-z]+) (?P<addr>[0-9a-zA-Z:]+) (?P<handle>\d+)', output)
+        m = self.re_b.search(output)
         if m:
             peer = self.ana.nodename_from_mac(m.group('addr'))
             self.evt(time, m.group("evt"), node, peer, int(m.group("handle")))
@@ -131,10 +132,11 @@ class Topo:
         self.print_topo()
 
         hopcnt = [self.topo[n]["hops"] for n in self.topo if self.topo[n]["hops"] > 0]
-        self.ana.statwrite(f'\nHopcnt max    {max(hopcnt):>7}')
-        self.ana.statwrite(f'Hopcnt avg    {sum(hopcnt) / len(hopcnt):>7.3f}')
-        self.ana.statwrite(f'Hopcnt mean   {statistics.mean(hopcnt):>7.3f}')
-        self.ana.statwrite(f'Hopcnt median {statistics.median(hopcnt):>7.3f}\n')
+        if len(hopcnt) > 0:
+            self.ana.statwrite(f'\nHopcnt max    {max(hopcnt):>7}')
+            self.ana.statwrite(f'Hopcnt avg    {sum(hopcnt) / len(hopcnt):>7.3f}')
+            self.ana.statwrite(f'Hopcnt mean   {statistics.mean(hopcnt):>7.3f}')
+            self.ana.statwrite(f'Hopcnt median {statistics.median(hopcnt):>7.3f}\n')
 
 
     def get_conn_drops(self):

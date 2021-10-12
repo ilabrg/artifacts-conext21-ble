@@ -21,7 +21,6 @@
 import os
 import re
 import sys
-import copy
 
 
 PREFIX = "2001:affe"
@@ -60,9 +59,11 @@ class Ifconfigval:
     def update(self, time, node, line):
         m = re.search(r'^>? *ifconfig$', line)
         if m:
-            e = copy.deepcopy(IFCONFIG)
-            e["time"] = time
-            self.events[node].append(e)
+            self.events[node].append({
+                "time": time,
+                "l2_addr": None,
+                "ip_addr": None,
+            })
 
         m = re.search(r'Iface +\d+ +HWaddr: +(?P<l2_addr>[a-fA-F0-9:]+)', line)
         if m:
@@ -88,14 +89,14 @@ class Ifconfigval:
             state = m.group("state").strip()
             if name in PS_GOODSTATE:
                 if state != PS_GOODSTATE[name]:
-                    bad = copy.deepcopy(BAD_PS)
-                    bad["node"] = node
-                    bad["time"] = time
-                    bad["pid"] = int(m.group("pid"))
-                    bad["thread"] = name
-                    bad["state"] = state
-                    bad["should"] = PS_GOODSTATE[name]
-                    self.bad_ps.append(bad)
+                    self.bad_ps.append({
+                        "node": node,
+                        "time": time,
+                        "pid": int(m.group("pid")),
+                        "thread": name,
+                        "state": state,
+                        "should": PS_GOODSTATE[name],
+                    })
 
 
     def summary(self):

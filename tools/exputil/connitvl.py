@@ -31,11 +31,14 @@ class Connitvl:
         self.ana = ana
         self.conns = {n: [None for _ in range(MAX_CONNS)] for n in self.ana.desc["used_nodes"]}
 
+        self.re_itvl = re.compile(r'\[ ?(?P<handle>\d+)\] '
+                                  r'(?P<peer>[0-9a-zA-Z:]+) \[(?P<lladdr>[0-9a-zA-Z:]+)\] '
+                                  r'\((?P<role>[MS]),(?P<itvl>\d+)ms,(?P<super>\d+)ms,(?P<slat>\d+)\)')
+        self.re_unused = re.compile(r'\[ ?(?P<handle>\d+)\] state: 0x\d+ - unused')
+
 
     def update(self, time, node, line):
-        m = re.search(r'\[ ?(?P<handle>\d+)\] '
-                      r'(?P<peer>[0-9a-zA-Z:]+) \[(?P<lladdr>[0-9a-zA-Z:]+)\] '
-                      r'\((?P<role>[MS]),(?P<itvl>\d+)ms,(?P<super>\d+)ms,(?P<slat>\d+)\)', line)
+        m = self.re_itvl.search(line)
         if m:
             handle = int(m.group("handle"))
             peer = self.ana.nodename_from_mac(m.group('peer'))
@@ -48,7 +51,7 @@ class Connitvl:
             }
             # print("Hello peer {}".format(self.conns[node][handle]))
 
-        m = re.search(r'\[ ?(?P<handle>\d+)\] state: 0x\d+ - unused', line)
+        m = self.re_unused.search(line)
         if m:
             handle = int(m.group("handle"))
             self.conns[node][handle] = None

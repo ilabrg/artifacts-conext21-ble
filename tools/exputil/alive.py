@@ -21,14 +21,6 @@
 import os
 import re
 import sys
-import copy
-
-ALIVE_DATA = {
-    "max": -1,      # maximum alive counter seen in log
-    "cnt": 0,       # number of alive message per node seen
-    "lost": [],     # lost sequence numbers
-    "dups": [],     # duplicate sequence numbers
-}
 
 
 class Alive:
@@ -36,11 +28,20 @@ class Alive:
     def __init__(self, ana):
         self.ana = ana
         self.used = False
-        self.data = {n: copy.deepcopy(ALIVE_DATA) for n in self.ana.desc["used_nodes"]}
+        self.data = {}
+        for n in self.ana.desc["used_nodes"]:
+            self.data[n] = {
+                "max": -1,      # maximum alive counter seen in log
+                "cnt": 0,       # number of alive message per node seen
+                "lost": [],     # lost sequence numbers
+                "dups": [],     # duplicate sequence numbers
+            }
+
+        self.re_alive = re.compile(r'ALIVE-(?P<seq>[0-9]+)')
 
 
     def update(self, time, node, line):
-        m = re.search(r'ALIVE-(?P<seq>[0-9]+)', line)
+        m = self.re_alive.search(line)
         if m:
             self.used = True
             seq = int(m.group('seq'))

@@ -98,6 +98,8 @@ class Expstats:
         self.credits = {n: {} for n in self.ana.desc["used_nodes"]}
         self.of_evt = []
 
+        self.re_evt = re.compile(r'^>? *~(?P<type>[A-Z]+(_[A-Z_]+)*)(:(?P<info>.+))?')
+
 
     def getraw(self):
         return {
@@ -118,13 +120,14 @@ class Expstats:
 
 
     def update(self, time, node, line):
-        m = re.search(r'^>? *~(?P<type>[A-Z]+(_[A-Z_]+)*)'
-                       '(:(?P<info>.+))?', line)
+        m = self.re_evt.search(line)
         if m:
-            evt = copy.deepcopy(EVT)
-            evt["node"] = node
-            evt["time"] = time
-            evt["type"] = m.group("type")
+            evt = {
+                "node": node,
+                "time": time,
+                "type": m.group("type"),       # type of the event -> e.g. A_TX
+                "seq": None,
+            }
 
             if m.group("info"):
                 if ">" in m.group("info") or "<" in m.group("info"):
@@ -132,54 +135,54 @@ class Expstats:
                     self.update_flow(evt)
                 elif evt["type"] == "OF":
                     self.of_evt.append({"node": node, "time": time, "of": int(m.group("info"))})
-                else:
-                    mm = re.match(r'(?P<chan>0x[a-f0-9]+);(?P<handle>\d+)'
-                                  r';(?P<rx_credits>\d+);(?P<tx_credits>\d+);(?P<change>\d+)', m.group("info"))
-                    if mm:
-                        chan = mm.group("chan")
-                        handle = mm.group("handle")
-                        rx_credits = int(mm.group("rx_credits"))
-                        tx_credits = int(mm.group("tx_credits"))
-                        change = int(mm.group("change"))
+                # else:
+                #     mm = re.match(r'(?P<chan>0x[a-f0-9]+);(?P<handle>\d+)'
+                #                   r';(?P<rx_credits>\d+);(?P<tx_credits>\d+);(?P<change>\d+)', m.group("info"))
+                #     if mm:
+                #         chan = mm.group("chan")
+                #         handle = mm.group("handle")
+                #         rx_credits = int(mm.group("rx_credits"))
+                #         tx_credits = int(mm.group("tx_credits"))
+                #         change = int(mm.group("change"))
 
-                        if chan not in self.credits[node]:
-                            self.credits[node][chan] = [{"handle": handle,
-                                                         "init-rx": 0,
-                                                         "init-tx": 0,
-                                                         "min-rx": 0,
-                                                         "max-rx": 0,
-                                                         "min-tx": 0,
-                                                         "max-tx": 0,
-                                                         "sig-cnt": 0,
-                                                         "upd-cnt": 0,}]
-                        if evt["type"] == "H_CI" and self.credits[node][chan][-1]["init-rx"] == 0:
-                            self.credits[node][chan][-1]["init-rx"] = rx_credits
-                            self.credits[node][chan][-1]["init-tx"] = tx_credits
-                        elif evt["type"] == "H_CI":
-                            self.credits[node][chan].append({"handle": handle,
-                                                              "init-rx": rx_credits,
-                                                              "init-tx": tx_credits,
-                                                              "min-rx": 0,
-                                                              "max-rx": 0,
-                                                              "min-tx": 0,
-                                                              "max-tx": 0,
-                                                              "sig-cnt": 0,
-                                                              "upd-cnt": 0,})
+                #         if chan not in self.credits[node]:
+                #             self.credits[node][chan] = [{"handle": handle,
+                #                                          "init-rx": 0,
+                #                                          "init-tx": 0,
+                #                                          "min-rx": 0,
+                #                                          "max-rx": 0,
+                #                                          "min-tx": 0,
+                #                                          "max-tx": 0,
+                #                                          "sig-cnt": 0,
+                #                                          "upd-cnt": 0,}]
+                #         if evt["type"] == "H_CI" and self.credits[node][chan][-1]["init-rx"] == 0:
+                #             self.credits[node][chan][-1]["init-rx"] = rx_credits
+                #             self.credits[node][chan][-1]["init-tx"] = tx_credits
+                #         elif evt["type"] == "H_CI":
+                #             self.credits[node][chan].append({"handle": handle,
+                #                                               "init-rx": rx_credits,
+                #                                               "init-tx": tx_credits,
+                #                                               "min-rx": 0,
+                #                                               "max-rx": 0,
+                #                                               "min-tx": 0,
+                #                                               "max-tx": 0,
+                #                                               "sig-cnt": 0,
+                #                                               "upd-cnt": 0,})
 
-                        if evt["type"] in ["H_CS", "H_CRR", "H_CU", "H_CTX"]:
-                            if rx_credits > self.credits[node][chan][-1]["max-rx"]:
-                                self.credits[node][chan][-1]["max-rx"] = rx_credits
-                            if rx_credits < self.credits[node][chan][-1]["min-rx"]:
-                                self.credits[node][chan][-1]["min-rx"] = rx_credits
-                            if tx_credits > self.credits[node][chan][-1]["max-tx"]:
-                                self.credits[node][chan][-1]["max-tx"] = tx_credits
-                            if tx_credits < self.credits[node][chan][-1]["min-tx"]:
-                                self.credits[node][chan][-1]["min-tx"] = tx_credits
+                #         if evt["type"] in ["H_CS", "H_CRR", "H_CU", "H_CTX"]:
+                #             if rx_credits > self.credits[node][chan][-1]["max-rx"]:
+                #                 self.credits[node][chan][-1]["max-rx"] = rx_credits
+                #             if rx_credits < self.credits[node][chan][-1]["min-rx"]:
+                #                 self.credits[node][chan][-1]["min-rx"] = rx_credits
+                #             if tx_credits > self.credits[node][chan][-1]["max-tx"]:
+                #                 self.credits[node][chan][-1]["max-tx"] = tx_credits
+                #             if tx_credits < self.credits[node][chan][-1]["min-tx"]:
+                #                 self.credits[node][chan][-1]["min-tx"] = tx_credits
 
-                        if evt["type"] == "H_CS":
-                            self.credits[node][chan][-1]["sig-cnt"] += change
-                        if evt["type"] == "H_CU":
-                            self.credits[node][chan][-1]["upd-cnt"] += change
+                #         if evt["type"] == "H_CS":
+                #             self.credits[node][chan][-1]["sig-cnt"] += change
+                #         if evt["type"] == "H_CU":
+                #             self.credits[node][chan][-1]["upd-cnt"] += change
 
             self.evt.append(evt)
 
@@ -202,9 +205,24 @@ class Expstats:
         if sid in self.flows_map:
             flow = self.flows_map[sid]
         else:
-            flow = copy.deepcopy(FLOW)
-            flow["seq"] = sid
-            flow["path"].append(evt["node"])
+            flow = {
+                "seq": sid,        # ID of the flow -> seq number without direction char (a-bbb)
+                "src": None,        # filled by A_TX event
+                "dst": None,        # filled by A_RX event
+                "ack": None,        # filled by A_ACK event -> MUST be same as src
+                "path": [evt["node"]],         # list of nodes that mark the packets path (by logtime)
+                "events": [],       # list of events regarding this flow
+                "t_tx": [],         # timestamp when pkt was sent ->    on A_TX
+                "t_tx_er": [],      # timestamp when pkt send error occured -> on A_TX_ER
+                "t_tx_re": [],      # timestamp when pkt was resent ->    on A_TX_RE
+                "t_rx": [],         # timestamp when pkt was received -> on A_RX
+                "t_ack": [],        # timestamp when pkt was acked -> on A_ACK
+                "drop_tx": [],      # DROP tuple for packet drops on request path
+                "drop_ack": [],     # DROP tuple for packet drops on reply path
+                "drop_nc_tx": [],   # DROP tuple for packets dropped when not connected, dir TX
+                "drop_nc_ack": [],  # DROP tuple for packets dropped when not connected, dir ACK
+            }
+
             self.flows.append(flow)
             self.flows_map[sid] = flow
 
@@ -241,9 +259,10 @@ class Expstats:
             flow["t_ack"].append(evt["time"])
 
         elif evt["type"] == "I_D" or evt["type"] == "N_TX_NC":
-            drop = copy.deepcopy(DROP)
-            drop["node"] = evt["node"]
-            drop["time"] = evt["time"]
+            drop = {
+                "node": evt["node"],       # node that dropped the packet
+                "time": evt["time"],          # time when the drop happened
+            }
 
             if evt["type"] == "I_D":
                 if ">" in evt["seq"]:
@@ -274,8 +293,44 @@ class Expstats:
         self.ana.t["duration"] = self.ana.t["end"] - self.ana.t["start"]
 
         # count flow events
-        self.flows_cnt = {n: copy.deepcopy(FLOW_CNT) for n in self.ana.desc["used_nodes"]}
-        self.flows_cnt["sum"] = copy.deepcopy(FLOW_CNT)
+        for n in self.ana.desc["used_nodes"]:
+            self.flows_cnt[n] = {
+                "all": 0,
+                "tx": 0,
+                "tx_re": 0,
+                "tx_er": 0,
+                "rx": 0,
+                "ack": 0,
+                "rate_rx": 0,
+                "rate_ack": 0,
+                "tx_dups": 0,
+                "rx_dups": 0,
+                "tx_re_dups": 0,
+                "ack_dups": 0,
+                "drop_tx": 0,
+                "drop_ack": 0,
+                "drop_nc_tx": 0,
+                "drop_nc_ack": 0,
+            }
+        self.flows_cnt["sum"] = {
+            "all": 0,
+            "tx": 0,
+            "tx_re": 0,
+            "tx_er": 0,
+            "rx": 0,
+            "ack": 0,
+            "rate_rx": 0,
+            "rate_ack": 0,
+            "tx_dups": 0,
+            "rx_dups": 0,
+            "tx_re_dups": 0,
+            "ack_dups": 0,
+            "drop_tx": 0,
+            "drop_ack": 0,
+            "drop_nc_tx": 0,
+            "drop_nc_ack": 0,
+            }
+
         for flow in self.flows:
             if flow["src"] == None:
                 print("FLOW is broken {}".format(flow))
@@ -670,7 +725,7 @@ class Expstats:
 
         data = {"x": ticks, "y": [cnt[t] for t in types], "label": types}
         suffix = "-".join([a[1:] for a in types]).lower()
-        print(ticks)
+
         info = {"title": "Accumulated # of Events",
                 "xlabel": "Experiment duration, binsize {:.0f}s".format(cfg["binsize"]),
                 "ylabel": "# of Events",
@@ -763,10 +818,14 @@ class Expstats:
         xt = self.ana.plotter.get_ticks([l["x"] for l in lines], None)
         yt = self.ana.plotter.get_ticks([l["y"] for l in lines], ylim)
 
+        print("NODES nodes", nodes)
+
         if nodes == None:
             suffix = "pdr"
         else:
             suffix = "pdr_{}".format("-".join(nodes))
+
+        print("suffix", suffix)
 
         info = {
             "title": "Packet Delivery Rate (binsize: {:.1f}s)".format(cfg["binsize"]),

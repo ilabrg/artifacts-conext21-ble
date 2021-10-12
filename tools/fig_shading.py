@@ -62,10 +62,6 @@ class Fig(Expbase):
         self.llpdr = self.load(SRC_LLPDR)
         self.apppdr = self.load(SRC_APPPDR)
 
-        # print(self.chanpdr["info"])
-        print("data len:", len(self.chanpdr["data"][0:37]))
-        print("")
-
 
     def make(self):
         fig, ax = plt.subplots(2, 1, gridspec_kw={'height_ratios': [2, 1]})

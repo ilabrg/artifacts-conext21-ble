@@ -61,6 +61,14 @@ class LLStats:
         self.phy_all = []
 
 
+        self.re_txstats = re.compile(r'^>? *ll(?P<conn>\d+),(?P<stats>[0-9a-zA-Z]{80})')
+        self.re_supstats = re.compile(r'^>? *ll,(?P<dur>\d+),'
+                                      r'(?P<rx_cnt>\d+),(?P<rx>\d+),'
+                                      r'(?P<tx_cnt>\d+),(?P<tx>\d+),(?P<free>\d+)'
+                                      r'(,(?P<rx_cnt_off>\d+),(?P<tx_cnt_off>\d+))?')
+        self.re_buf = re.compile(r'^>? *buf(?P<free>\d+)')
+
+
     def getraw(self):
         return {
             "events": self.events,
@@ -84,10 +92,16 @@ class LLStats:
 
 
     def update(self, time, node, line):
-        m = re.search(r'^>? *ll(?P<conn>\d+),(?P<stats>[0-9a-zA-Z]{80})', line)
+        m = self.re_txstats.search(line)
         if m:
-            evt = copy.deepcopy(EVENT)
-            evt.update({"time": time, "node": node, "conn": int(m.group("conn"))})
+            evt = {
+                "time": time,
+                "node": node,
+                "conn": int(m.group("conn")),
+                "tx": [-1.0] * CHAN_NUMOF,
+                "ok": [-1.0] * CHAN_NUMOF,
+            }
+
             txsum = 0
             oksum = 0
             for i, char in enumerate(m.group("stats")):
@@ -105,10 +119,7 @@ class LLStats:
             self.pn[node].append(evt)
             return
 
-        m = re.search(r'^>? *ll,(?P<dur>\d+),'
-                      r'(?P<rx_cnt>\d+),(?P<rx>\d+),'
-                      r'(?P<tx_cnt>\d+),(?P<tx>\d+),(?P<free>\d+)'
-                      r'(,(?P<rx_cnt_off>\d+),(?P<tx_cnt_off>\d+))?', line)
+        m = self.re_supstats.search(line)
         if m:
             self.buf[node].append({"time": time, "free": int(m.group("free"))})
             phy_evt = {
@@ -125,26 +136,10 @@ class LLStats:
             self.phy[node].append(phy_evt)
             self.phy_all.append(phy_evt)
 
-        m = re.search(r'^>? *ll-dbg,', line)
 
-
-        m = re.search(r'^>? *buf(?P<free>\d+)', line)
+        m = self.re_buf.search(line)
         if m:
             self.buf[node].append({"time": time, "free": int(m.group("free"))})
-
-        m = re.search(r'^>? *ll(?P<conn>\d+),(?P<anchor>\d+)', line)
-        if m:
-            conn = int(m.group("conn"))
-            self.anchors[node][conn].append({"time": time, "anchor": int(m.group("anchor"))})
-
-
-        m = re.match(r'^>? *ll-(?P<astr>(c\d+[MS]\d+)+)', line)
-        if m:
-            m1 = re.findall(r'(?P<conn>\d+)(?P<role>[MS])(?P<anchor>\d+)', m.group("astr"))
-            off = {"time": time, "anchors": []}
-            for m in m1:
-                off["anchors"].append({"handle": int(m[0]), "role": m[1], "anchor": int(m[2])})
-            self.conn_offset[node].append(off)
 
 
     def get_rate(self, tx, ok):
@@ -431,6 +426,10 @@ class LLStats:
 
 
     def plot_rateline(self, nodes=None, binsize=5.0, timespan=None, ylim=None):
+        if len(self.events) == 0:
+            print("llstats: skipping plot_rateliine(), no LL events in log")
+            return
+
         line = self.get_rateline(nodes, binsize, timespan, ylim)
 
         if nodes == None:
@@ -456,6 +455,10 @@ class LLStats:
 
 
     def plot_rateline_pn(self, nodes=None, binsize=5.0, timespan=None, ylim=None):
+        if len(self.events) == 0:
+            print("llstats: skipping plot_rateliine_pn(), no LL events in log")
+            return
+
         cfg = self.ana.plotsetup(nodes, binsize, timespan)
 
         done = set()
@@ -658,6 +661,10 @@ class LLStats:
 
 
     def plot_bufusage(self, nodes=None, timespan=[None, None], xlim=None):
+        if len(self.events) == 0:
+            print("llstats: skipping plot_bufusage(), no LL events in log")
+            return
+
         cfg = self.ana.plotsetup(nodes, None, timespan)
 
         data = []

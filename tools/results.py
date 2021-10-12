@@ -34,7 +34,7 @@ from tools.exputil.topo import Topo
 from tools.exputil.expstats import Expstats
 from tools.exputil.alive import Alive
 from tools.exputil.connitvl import Connitvl
-from tools.exputil.ifconfigval import Ifconfigval
+# from tools.exputil.ifconfigval import Ifconfigval
 from tools.exputil.llstats import LLStats
 
 
@@ -46,11 +46,10 @@ class Results(Ana):
 
         self.alive = Alive(self)
         self.connitvl = Connitvl(self)
-        self.ifconfigval = Ifconfigval(self)
+        # self.ifconfigval = Ifconfigval(self)
 
         self.expstats = Expstats(self)
         self.topo = Topo(self)
-
         self.llstats = LLStats(self)
 
         self.parse_log(self.on_logline)
@@ -63,7 +62,7 @@ class Results(Ana):
         self.llstats.summary()
         self.alive.summary()
         self.connitvl.summary()
-        self.ifconfigval.summary()
+        # self.ifconfigval.summary()
         self.expstats.summary()
         self.topo.summary()
 
@@ -87,7 +86,7 @@ class Results(Ana):
     def on_logline(self, time, node, output):
         self.alive.update(time, node, output)
         self.connitvl.update(time, node, output)
-        self.ifconfigval.update(time, node, output)
+        # self.ifconfigval.update(time, node, output)
         self.expstats.update(time, node, output)
         self.topo.update(time, node, output)
         self.llstats.update(time, node, output)
@@ -116,9 +115,9 @@ class Results(Ana):
 
         # self.llstats.plot_rateline(binsize=10, ylim=[.0, 1.01], timespan=[None, None])
 
-        self.topo.plot_hopcnt(timespan=[None, 0])
-        self.topo.plot_hopcnt2(timespan=[None, 0])
-        self.expstats.plot_of_pn()
+        # self.topo.plot_hopcnt(timespan=[None, 0])
+        # self.topo.plot_hopcnt2(timespan=[None, 0])
+        # self.expstats.plot_of_pn()
 
         # self.llstats.plot_phy_verify()
         # self.llstats.plot_bufusage()
@@ -158,6 +157,11 @@ class Results(Ana):
         self.expstats.plot_delay_heatmap(binsize=15, aggr="min", nodes=prod)
         self.expstats.plot_delay_heatmap(binsize=15, aggr="max", nodes=prod)
 
+        self.llstats.plot_rateline(binsize=10, ylim=[.0, 1.01], nodes=["nrf52dk-1"])
+        self.expstats.plot_flow_pdr([["t_rx", "Pkts received by Consumer"],
+                                     ["t_ack", "ACKs received by Producers"]], ylim=[.0, 1.01], nodes=["nrf52dk-1"])
+
+
 
         # self.llstats.plot_txcnt()
         # self.llstats.plot_txcnt(binsize=10)
@@ -191,30 +195,24 @@ class Results(Ana):
 
 
 
-        self.expstats.plot_stats(["A_TX", "A_RX", "A_ACK", "A_TX_RE", "A_TX_ER"])
-        self.expstats.plot_stats_pn(["A_TX", "A_RX", "A_ACK", "A_TX_RE", "A_TX_ER"], nodes=producers)
+        # self.expstats.plot_stats(["A_TX", "A_RX", "A_ACK", "A_TX_RE", "A_TX_ER"])
+        # self.expstats.plot_stats_pn(["A_TX", "A_RX", "A_ACK", "A_TX_RE", "A_TX_ER"], nodes=producers)
 
-        # self.expstats.plot_cdf_pn()
+        # # self.expstats.plot_cdf_pn()
 
-        self.expstats.plot_stats(["I_D", "B_PL", "R_E_PTO", "F_DD", "F_AD"])
-        self.expstats.plot_stats_pn(["I_D", "B_PL", "R_E_PTO", "F_DD", "F_AD"])
+        # self.expstats.plot_stats(["I_D", "B_PL", "R_E_PTO", "F_DD", "F_AD"])
+        # self.expstats.plot_stats_pn(["I_D", "B_PL", "R_E_PTO", "F_DD", "F_AD"])
 
-        self.expstats.plot_stats(["N_RX_ER", "N_RX_NPB", "N_TX_NC", "N_TX_ER", "N_TX_NNB"])
-        self.expstats.plot_stats_pn(["N_RX_ER", "N_RX_NPB", "N_TX_NC", "N_TX_ER", "N_TX_NNB"])
-        self.expstats.plot_stats(["A_TX_F", "A_TX_ER", "A_ACK_ER", "A_ACK_TO"])
-        self.expstats.plot_stats(["N_RX", "N_TX", "N_TX_M"])
-        self.expstats.plot_stats_pn(["N_RX", "N_TX", "N_TX_M"])
-
-    def tmpfoo(self):
-        self.expstats.plot_stats_pn(["R_E_PTO", "R_E_PS", "R_E_PR", "N_TX_NC"])
-        # self.expstats.plot_stats_pn(["F_A", "F_AD", "F_AE", "F_D", "F_DD", "I_D"])
+        # self.expstats.plot_stats(["N_RX_ER", "N_RX_NPB", "N_TX_NC", "N_TX_ER", "N_TX_NNB"])
+        # self.expstats.plot_stats_pn(["N_RX_ER", "N_RX_NPB", "N_TX_NC", "N_TX_ER", "N_TX_NNB"])
+        # self.expstats.plot_stats(["A_TX_F", "A_TX_ER", "A_ACK_ER", "A_ACK_TO"])
+        # self.expstats.plot_stats(["N_RX", "N_TX", "N_TX_M"])
+        # self.expstats.plot_stats_pn(["N_RX", "N_TX", "N_TX_M"])
 
 
 def main(args):
     res = Results(args.logfile)
     res.plotme()
-    # res.tmpfoo()
-
 
 
 if __name__ == "__main__":

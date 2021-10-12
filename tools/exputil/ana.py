@@ -21,7 +21,6 @@
 import os
 import re
 import sys
-import copy
 import yaml
 import math
 from datetime import datetime
@@ -30,14 +29,6 @@ from tools.exputil.expbase import Expbase
 
 CFG_DFLT_SITE = "saclay"
 
-TIME = {
-    "prep": 0,          # time of first entry in the log file, start of experiment
-    "start": 0,         # time of first payload activity -> TIME 0
-    "end": 0,           # time of last payload effecting event
-    "finish": 0,        # time of last entry in log file
-    "duration": 0,      # time span from start to end (end - start)
-}
-
 class Ana(Expbase):
 
     def __init__(self, logfile):
@@ -45,7 +36,22 @@ class Ana(Expbase):
         super().__init__()
         self.setup_ana(logfile)
 
-        self.t = copy.deepcopy(TIME)
+        self.re_desc = re.compile(r'exp: (?P<cat>[-\.a-zA-Z0-9_]+): (?P<val>.+)')
+        self.re_logline = re.compile(r'(?P<time>\d+\.\d+);'
+                                     r'(?P<node>[a-zA-Z0-9-]+);'
+                                     r'(?P<output>.*)')
+        self.re_ownaddr = re.compile(r'Own Address: (?P<mac>[:a-zA-Z0-9]+)'
+                                     r' -> \[(?P<l2addr>[:a-zA-Z0-9]+)\]')
+        self.re_logline_pyterm = re.compile(r'^>? *(?P<time>\d+-\d+-\d+ \d+:\d+:\d+,\d+) # +'
+                                            r'(?P<line>.+)')
+
+        self.t = {
+            "prep": 0,          # time of first entry in the log file, start of experiment
+            "start": 0,         # time of first payload activity -> TIME 0
+            "end": 0,           # time of last payload effecting event
+            "finish": 0,        # time of last entry in log file
+            "duration": 0,      # time span from start to end (end - start)
+        }
 
         self.statfile = open("{}{}".format(self.plotbase, ".stat"), "w", encoding="utf-8", buffering=1)
 
@@ -93,7 +99,7 @@ class Ana(Expbase):
             for line in f:
                 if line == "----\n":
                     return;
-                m = re.match(r'exp: (?P<cat>[-\.a-zA-Z0-9_]+): (?P<val>.+)', line)
+                m = self.re_desc.match(line)
                 if m:
                     cat = m.group("cat")
                     if cat == "used_nodes":
@@ -166,9 +172,7 @@ class Ana(Expbase):
 
         with open(self.logfile, "r", encoding="utf-8") as f:
             for line in f:
-                m = re.match(r'(?P<time>\d+\.\d+);'
-                             r'(?P<node>[a-zA-Z0-9-]+);'
-                             r'(?P<output>.*)', line)
+                m = self.re_logline.match(line)
                 if m:
                     time = float(m.group('time'))
                     node = m.group("node")
@@ -179,8 +183,7 @@ class Ana(Expbase):
                     if time > t_last:
                         t_last = time
 
-                    m = re.search(r'Own Address: (?P<mac>[:a-zA-Z0-9]+)'
-                                  r' -> \[(?P<l2addr>[:a-zA-Z0-9]+)\]', output)
+                    m = self.re_ownaddr.search(output)
                     if m:
                         mac = m.group('mac').lower()
                         l2addr = m.group('l2addr').lower()
@@ -206,8 +209,7 @@ class Ana(Expbase):
 
         with open(self.logfile, "r", encoding="utf-8") as f:
             for line in f:
-                m = re.match(r'^>? *(?P<time>\d+-\d+-\d+ \d+:\d+:\d+,\d+) # +'
-                             r'(?P<line>.+)', line)
+                m = self.re_logline_pyterm.match(line)
                 if m:
                     t = datetime.strptime(m.group("time") + "000",
                                             "%Y-%m-%d %H:%M:%S,%f").timestamp()
