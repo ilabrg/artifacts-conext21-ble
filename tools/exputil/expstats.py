@@ -23,6 +23,7 @@ import re
 import sys
 import copy
 import math
+import statistics
 import numpy as np
 
 FLOW = {
@@ -336,6 +337,15 @@ class Expstats:
                 print("FLOW is broken {}".format(flow))
                 continue
 
+            if len(flow["t_tx"]) > 0 and len(flow["t_rx"]) > 0:
+                flow["lat_rx"] = flow["t_rx"][0] - flow["t_tx"][0]
+            else:
+                flow["lat_rx"] = 0
+            if len(flow["t_tx"]) > 0 and len(flow["t_ack"]) > 0:
+                flow["lat_ack"] = flow["t_ack"][0] - flow["t_tx"][0]
+            else:
+                flow["lat_ack"] = 0
+
             self.flows_cnt["sum"]["all"] += 1
             self.flows_cnt[flow["src"]]["all"] += 1
 
@@ -349,7 +359,7 @@ class Expstats:
                 numof = len(flow["t_{}".format(feat)])
 
                 if feat == "tx" and numof > 1:
-                    print(flow)
+                    print(f'FLOW BROKEN, multiple TX: {self.ana.logfile}')
 
                 if numof > 0:
                     self.flows_cnt["sum"][feat] += 1
@@ -635,6 +645,22 @@ class Expstats:
         # for flow in dups:
         #     self.ana.statwrite(flow)
 
+    def stats(self):
+
+        tmp = []
+        for flow in self.flows:
+            if flow["lat_ack"] > 0:
+                tmp.append(flow["lat_ack"])
+
+        stats = {
+            "latency_avg": statistics.mean(tmp),
+            "latency_min": min(tmp),
+            "latency_max": max(tmp),
+            "latency_all": tmp,
+        }
+
+        return stats
+
 
     def _bininit(self, bincnt, timespan, fulltime):
         cfg = {"first": 0, "last": 0, "cnt": bincnt, "size": 0, "initial": 0}
@@ -818,14 +844,10 @@ class Expstats:
         xt = self.ana.plotter.get_ticks([l["x"] for l in lines], None)
         yt = self.ana.plotter.get_ticks([l["y"] for l in lines], ylim)
 
-        print("NODES nodes", nodes)
-
         if nodes == None:
             suffix = "pdr"
         else:
             suffix = "pdr_{}".format("-".join(nodes))
-
-        print("suffix", suffix)
 
         info = {
             "title": "Packet Delivery Rate (binsize: {:.1f}s)".format(cfg["binsize"]),

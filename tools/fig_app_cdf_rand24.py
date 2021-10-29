@@ -25,7 +25,6 @@ sys.path.append(str(Path(os.path.abspath(__file__)).parent.parent))
 
 import re
 import math
-import copy
 import json
 import argparse
 from datetime import datetime
@@ -46,14 +45,18 @@ from matplotlib.colors import ListedColormap, LinearSegmentedColormap
 SRC = {
     "i75":  "exp_putnon_statconn-static_1s24h39b_i75/exp_putnon_statconn-static_1s24h39b_i75_20210308-104935_cdf.json",
     "rand": "exp_putnon_statconn-static_1s24h39b_i65r85/exp_putnon_statconn-static_1s24h39b_i65r85_20210303-145836_cdf.json",
+    "i75-line":  "exp_putnon_statconn-static-line_1s24h39b_i75/exp_putnon_statconn-static-line_1s24h39b_i75_20210916-203133_cdf.json",
+    "rand-line": "exp_putnon_statconn-static-line_1s24h39b_i65r85/exp_putnon_statconn-static-line_1s24h39b_i65r85_20210920-102945_cdf.json",
 }
+
+TICKLBLSIZE = 9
+AXISLBLSIZE = 11
 
 class Fig(Expbase):
     def __init__(self):
         super().__init__()
 
         base = os.path.splitext(os.path.basename(__file__))[0]
-        os.makedirs(os.path.join(self.basedir, "results/figs"), exist_ok=True)
         self.out_pdf = os.path.join(self.basedir, "results/figs", f'{base}.pdf')
         self.out_png = os.path.join(self.basedir, "results/figs", f'{base}.png')
         print(self.out_pdf)
@@ -69,29 +72,36 @@ class Fig(Expbase):
         fig.set_figheight(1.75)
 
         # set generic axis options
+        xt = [i / 10 for i in range(0, 32, 2)]
         ax.set_xlim(0.0, 1.4)
-        ax.set_xticks([0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4])
-        ax.set_xticklabels([0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4], size=8)
+        ax.set_xticks(xt)
+        ax.set_xticklabels(xt, size=TICKLBLSIZE)
 
+        yt = [0, 0.2, 0.4, 0.6, 0.8, 1.0]
         ax.set_ylim(0.0, 1.02)
-        ax.set_yticks([0, 0.2, 0.4, 0.6, 0.8, 1.0])
+        ax.set_yticks(yt)
+        ax.set_yticklabels(yt, size=TICKLBLSIZE)
+        for index, label in enumerate(ax.xaxis.get_ticklabels()):
+            if index % 2 != 1:
+                label.set_visible(False)
+
         ax.xaxis.grid(True)
         ax.yaxis.grid(True)
-        for tick in ax.yaxis.get_major_ticks():
-            tick.label.set_fontsize(8)
 
         # ax.set_title("CDF of Round Trip Times (RTT)", size=9)
-        ax.plot(self.dat["i75"]["data"][1]["x"], self.dat["i75"]["data"][1]["y"], color="C0", label="Static ConnItvl")
-        ax.plot(self.dat["rand"]["data"][1]["x"], self.dat["rand"]["data"][1]["y"], color="C1", label="Random ConnItvl")
-        ax.legend(fontsize=8, loc="lower right")
+        ax.plot(self.dat["i75"]["data"][1]["x"], self.dat["i75"]["data"][1]["y"], color="C0", label="Tree, Static ConnItvl")
+        ax.plot(self.dat["rand"]["data"][1]["x"], self.dat["rand"]["data"][1]["y"], color="C1", label="Tree, Random ConnItvl")
+        ax.plot(self.dat["i75-line"]["data"][1]["x"], self.dat["i75-line"]["data"][1]["y"], color="C2", label="Line, Static ConnItvl")
+        ax.plot(self.dat["rand-line"]["data"][1]["x"], self.dat["rand-line"]["data"][1]["y"], color="C3", label="Line, Random ConnItvl")
+        ax.legend(fontsize=9, loc="lower right")
 
         # ax[1].set_title("Line Topology with 75ms connection interval", size=9)
         # print(self.tree["info"]["xtick_lbl"])
         # ax[1].plot(self.line["data"][1]["x"], self.line["data"][1]["y"], color="C1")
 
         # Set common labels
-        fig.text(0.5, 0.00, 'RTT [s]', ha='center', va='center', size=9)
-        fig.text(0.00, 0.5, 'CDF', ha='center', va='center', rotation='vertical', size=9)
+        fig.text(0.5, 0.00, 'RTT [s]', ha='center', va='center', size=AXISLBLSIZE)
+        fig.text(0.00, 0.55, 'CDF', ha='center', va='center', rotation='vertical', size=AXISLBLSIZE)
 
 
 
@@ -103,6 +113,7 @@ class Fig(Expbase):
 
 
         plt.tight_layout()
+        plt.subplots_adjust(left=0.1, right=1.0)
 
         plt.savefig(self.out_pdf, dpi=300, format='pdf', bbox_inches='tight')
         plt.savefig(self.out_png, dpi=300, format='png', bbox_inches='tight', pad_inches=0.01)

@@ -59,6 +59,10 @@ class Results(Ana):
         self.llstats.finish()
         self.topo.finish()
 
+        # export overview
+        self.write_overview(self.llstats, self.expstats, self.topo)
+
+        print("\nRESULTS")
         self.llstats.summary()
         self.alive.summary()
         self.connitvl.summary()

@@ -48,14 +48,16 @@ The following table shows the mapping between figures in the paper and the scrip
 | :--         | :-- |
 | Fig. 7 (a)  | `tools/fig_app_pdr.py` |
 | Fig. 7 (b)  | `tools/fig_app_cdf_linetree.py` |
-| Fig. 8      | `tools/fig_app_cdf_itvlcmp.py` |
-| Fig. 9      | `tools/fig_app_pdr_load.py` |
+| Fig. 8 (a)  | `tools/fig_app_cdf_itvlcmp.py` |
+| Fig. 8 (b)  | `tools/ig_app_cdf_prodcmp_75ms.py` |
+| Fig. 9 (a)  | `tools/fig_app_pdr_load_100ms.py` |
+| Fig. 9 (b)  | `tools/fig_app_pdr_load_i2s.py` |
 | Fig. 10 (a) | `tools/fig_app_pdr_154.py` |
 | Fig. 10 (b) | `tools/fig_app_cdf_154.py` |
-| Fig. 11     | `tools/fig_shading.py` |
-| Fig. 12 (a) | `tools/fig_app_pdr_rand24.py` |
-| Fig. 12 (b) | `tools/fig_ll_pdr_rand24.py` |
-| Fig. 12 (c) | `tools/fig_app_cdf_rand24.py` |
+| Fig. 12     | `tools/fig_shading.py` |
+| Fig. 13 (a) | `tools/fig_app_pdr_rand24.py` |
+| Fig. 13 (b) | `tools/fig_ll_pdr_rand24.py` |
+| Fig. 13 (c) | `tools/fig_app_cdf_rand24.py` |
 
 
 ### Howto setup your host system for running experiments

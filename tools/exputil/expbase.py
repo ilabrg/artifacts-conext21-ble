@@ -22,6 +22,7 @@ import os
 import re
 import sys
 import yaml
+import json
 import shutil
 from pathlib import Path
 from datetime import datetime
@@ -158,3 +159,11 @@ class Expbase:
             return (len(name) * 100) + int(name.split("-")[-1])
         else:
             return (len(name) * 10000)
+
+
+    def load_json(self, file):
+        try:
+            with open(file, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except Exception as e:
+            sys.exit("Error: unable to load file {}\n->{}".format(file, e))

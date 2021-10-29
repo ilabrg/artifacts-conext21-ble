@@ -25,7 +25,6 @@ sys.path.append(str(Path(os.path.abspath(__file__)).parent.parent))
 
 import re
 import math
-import copy
 import json
 import argparse
 from datetime import datetime
@@ -46,14 +45,19 @@ from matplotlib.colors import ListedColormap, LinearSegmentedColormap
 SRC = {
     "i75":  "exp_putnon_statconn-static_1s24h39b_i75/exp_putnon_statconn-static_1s24h39b_i75_20210308-104935_pdr.json",
     "rand": "exp_putnon_statconn-static_1s24h39b_i65r85/exp_putnon_statconn-static_1s24h39b_i65r85_20210303-145836_pdr.json",
+    "line-i75":  "exp_putnon_statconn-static-line_1s24h39b_i75/exp_putnon_statconn-static-line_1s24h39b_i75_20210916-203133_pdr.json",
+    "line-rand": "exp_putnon_statconn-static-line_1s24h39b_i65r85/exp_putnon_statconn-static-line_1s24h39b_i65r85_20210920-102945_pdr.json",
 }
+
+TICKLBLSIZE = 9
+LEGENDSIZE = 9
+AXISLBLSIZE = 11
 
 class Fig(Expbase):
     def __init__(self):
         super().__init__()
 
         base = os.path.splitext(os.path.basename(__file__))[0]
-        os.makedirs(os.path.join(self.basedir, "results/figs"), exist_ok=True)
         self.out_pdf = os.path.join(self.basedir, "results/figs", f'{base}.pdf')
         self.out_png = os.path.join(self.basedir, "results/figs", f'{base}.png')
         print(self.out_pdf)
@@ -72,36 +76,42 @@ class Fig(Expbase):
 
         fig, ax = plt.subplots(2, 1, sharex=True)
         fig.set_size_inches(5, 5)
-        fig.set_figheight(2.0)
+        fig.set_figheight(2.3)
 
         # set generic axis options
         for a in ax:
             a.set_xlim(0.0, 86400)
             a.set_xticks(np.arange(0, 86401, 3600))
-            a.set_xticklabels(np.arange(0, 25, 1))
+            a.set_xticklabels(np.arange(0, 25, 1), size=TICKLBLSIZE)
             for index, label in enumerate(a.xaxis.get_ticklabels()):
                 if index % 2 != 0:
                     label.set_visible(False)
 
-            a.set_ylim(0.5, 1.05)
-            a.set_yticks([0.5, .5, 1.0])
+            yt = [0.25, 0.5, 0.75, 1.0]
+            a.set_ylim(0.25, 1.05)
+            a.set_yticks(yt)
+            a.set_yticklabels([f'{l:.2f}' for l in yt], size=TICKLBLSIZE)
             a.xaxis.grid(True)
             a.yaxis.grid(True)
+
+        # ax[0].yaxis.get_ticklabels()[0].set_visible(False)
 
         # ax[0].set_title("Static BLE Connection Interval (75ms)", size=9)
         # ax[0].set_xticks([])
         # ax[0].set_xticklabels([])
-        ax[0].plot(self.dat["i75"]["data"][1]["x"], self.dat["i75"]["data"][1]["y"], color="C0", label="static connection interval 75ms")
-        ax[0].legend(fontsize=10, loc="lower left", borderaxespad=0.1)
+        ax[0].plot(self.dat["i75"]["data"][1]["x"], self.dat["i75"]["data"][1]["y"], color="C0", label="tree: static connection interval 75ms")
+        ax[0].plot(self.dat["rand"]["data"][1]["x"], self.dat["rand"]["data"][1]["y"], color="C1", label="tree: random connection interval [65:85]ms")
+        ax[0].legend(fontsize=LEGENDSIZE, loc="lower left", borderaxespad=0.1)
 
         # ax[1].set_title("Random BLE Connection Interval ([65:85]ms)", size=9)
         # ax[1].set_xticklabels(self.dat["100ms"]["info"]["xtick_lbl"], size=8)
-        ax[1].plot(self.dat["rand"]["data"][1]["x"], self.dat["rand"]["data"][1]["y"], color="C1", label="random connection interval [65:85]ms")
-        ax[1].legend(fontsize=10, loc="lower left", borderaxespad=0.1)
+        ax[1].plot(self.dat["line-i75"]["data"][1]["x"], self.dat["line-i75"]["data"][1]["y"], color="C2", label="line: static connection interval 75ms")
+        ax[1].plot(self.dat["line-rand"]["data"][1]["x"], self.dat["line-rand"]["data"][1]["y"], color="C3", label="line: random connection interval [65:85]ms")
+        ax[1].legend(fontsize=LEGENDSIZE, loc="lower left", borderaxespad=0.1)
 
         # Set common labels
-        fig.text(0.5, 0.00, 'Experiment runtime [h]', ha='center', va='center', size=11)
-        fig.text(0.00, 0.5, 'CoAP PDR [0:1.0]', ha='center', va='center', rotation='vertical', size=11)
+        fig.text(0.5, 0.00, 'Experiment runtime [h]', ha='center', va='center', size=AXISLBLSIZE)
+        fig.text(0.00, 0.5, 'CoAP PDR [0:1.0]', ha='center', va='center', rotation='vertical', size=AXISLBLSIZE)
 
 
         # ax.set_ylabel("moinfoo")
@@ -111,8 +121,10 @@ class Fig(Expbase):
         # plt.ylabel("moisnen")
 
 
-        # plt.legend(fontsize=8)
         plt.tight_layout()
+        plt.subplots_adjust(left=0.1, right=1.0, hspace=0.15)
+
+        print("final size:", fig.get_figwidth(), fig.get_figheight())
 
         plt.savefig(self.out_pdf, dpi=300, format='pdf', bbox_inches='tight')
         plt.savefig(self.out_png, dpi=300, format='png', bbox_inches='tight', pad_inches=0.01)

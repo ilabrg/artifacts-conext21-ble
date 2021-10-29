@@ -25,7 +25,6 @@ sys.path.append(str(Path(os.path.abspath(__file__)).parent.parent))
 
 import re
 import math
-import copy
 import json
 import argparse
 from datetime import datetime

@@ -22,6 +22,7 @@ import os
 import re
 import sys
 import yaml
+import json
 import math
 from datetime import datetime
 from tools.exputil.plotter import Plotter
@@ -237,3 +238,24 @@ class Ana(Expbase):
         print("\n@@@@@@@@@@ WARNING @@@@@@@@@@\n: {}".format(msg))
         print("Press any key to continue")
         sys.stdin.read(1)
+
+
+    def write_overview(self, llstats, expstats, topo):
+        outfile = f'{self.plotbase}_overview.json'
+        stats = {
+            "name": self.outname,
+            "pdr_app": expstats.flows_cnt["sum"]["rate_ack"],
+            "pdr_ll": llstats.sums["rate"] * 100,
+            "reconns": topo.stats()["reconn"],
+            "latency": expstats.stats(),
+            # "latency":
+            #   {"latency_avg": x,
+            #    "latency_min": x,
+            #    "latency_max": x,
+            #    "latency_all": []
+            #   }
+        }
+        with open(outfile, "w", encoding="utf-8") as f:
+            json.dump(stats, f)
+
+

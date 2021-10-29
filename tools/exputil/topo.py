@@ -132,11 +132,30 @@ class Topo:
         self.print_topo()
 
         hopcnt = [self.topo[n]["hops"] for n in self.topo if self.topo[n]["hops"] > 0]
-        if len(hopcnt) > 0:
-            self.ana.statwrite(f'\nHopcnt max    {max(hopcnt):>7}')
-            self.ana.statwrite(f'Hopcnt avg    {sum(hopcnt) / len(hopcnt):>7.3f}')
-            self.ana.statwrite(f'Hopcnt mean   {statistics.mean(hopcnt):>7.3f}')
-            self.ana.statwrite(f'Hopcnt median {statistics.median(hopcnt):>7.3f}\n')
+        self.ana.statwrite(f'\nHopcnt max    {max(hopcnt):>7}')
+        self.ana.statwrite(f'Hopcnt avg    {sum(hopcnt) / len(hopcnt):>7.3f}')
+        self.ana.statwrite(f'Hopcnt mean   {statistics.mean(hopcnt):>7.3f}')
+        self.ana.statwrite(f'Hopcnt median {statistics.median(hopcnt):>7.3f}\n')
+
+
+    def stats(self):
+        stats = {
+            "conn_events": len(self.conn_evt),
+            "reconn": 0,
+            "conn": 0,
+            "close": 0,
+        }
+
+        for evt in self.conn_evt:
+            if evt["type"] == "conn_s":
+                stats["conn"] += 1
+                if evt["t"] >= self.ana.t["start"] and evt["t"] <= self.ana.t["end"]:
+                    stats["reconn"] += 1
+
+            if evt["type"] == "close_m":
+                stats["close"] += 1
+
+        return stats
 
 
     def get_conn_drops(self):
