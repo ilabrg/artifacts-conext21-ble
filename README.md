@@ -58,6 +58,8 @@ The following table shows the mapping between figures in the paper and the scrip
 | Fig. 13 (a) | `tools/fig_app_pdr_rand24.py` |
 | Fig. 13 (b) | `tools/fig_ll_pdr_rand24.py` |
 | Fig. 13 (c) | `tools/fig_app_cdf_rand24.py` |
+| Fig. 14     | `tools/fig_overview_connloss_1saggr.py` |
+| Fig. 15     | `tools/fig_stats.py' |`
 
 
 ### Howto setup your host system for running experiments
