@@ -23,23 +23,19 @@ Each experiment run has a unique name as deducted by the filename of the experim
 ## How-to use this experiment framework
 
 ### Get the raw experiment data as used in the paper
-**NOTE: for the final version of the paper, all used raw and intermediate data will be uploaded to https://zenodo.org/ for long-term storage**
+All raw experiment data used in our paper is available via zenodo: https://zenodo.org/record/5635607
 
-All raw experiment data used in our paper is available via nextcloud: https://box.fu-berlin.de/s/FY4FTE2LTze5KGW
-
-To make this data accessible to our experiment framework and tooling located in this repository, we included a script that will automatically download the raw data from the nextcloud instance into the `results/logs` and `results/plots` subfolders. Simply run the
+To make this data accessible to our experiment framework and tooling located in this repository, we included a script that will automatically download the raw data from the zenodo into the `results/logs` and `results/plots` subfolders. Simply run the
 ```bash
 ./download_experiment_data.sh
 ```
 
 script located in the root of this repository.
 
-Note: the download my take a while as the script is downloading roughly 2.5Gb of data.
+**Note:** the download my take a while as the script is downloading roughly 4Gb of data and the extracted files will take roughly 20Gb of local storage.
 
 
 ### Reproduce the figures printed in the paper
-**NOTE: For the camera-ready version of the paper some existing papers will be updated/extended and new figures will be added. The corresponding scripts will therefore be updated and the table below will adapted accordingly once the final changes have converged.**
-
 Once the raw data has been downloaded, all figures from the paper can be reproduced from the raw data by running the plotting scripts provided in the `tools/` directory of this repository. Each individual result plot in the paper is created by its dedicated plotting script. To maintain reproducibility, the specific raw results used for each plot are hard coded into the scripts source code, hence the scripts are run without any additional parameters.
 
 The following table shows the mapping between figures in the paper and the script used to produce it:
