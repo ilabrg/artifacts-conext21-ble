@@ -1,22 +1,15 @@
 #!/bin/sh
 
 BASEDIR=$(dirname "${0}")
-# SRCLOGS="https://box.fu-berlin.de/s/engt3MkibQQbpTg/download"
-SRCLOGS="https://nextcloud.imp.fu-berlin.de/index.php/s/36SDbcbgGMt6EnZ/download"
-# SRCPLOTS="https://box.fu-berlin.de/s/Qg6fqLcGxcsQR6L/download"
-SRCPLOTS="https://nextcloud.imp.fu-berlin.de/index.php/s/FT2nEcZrrGCHqdY/download"
-TMPDIR=$(mktemp -d -t)
-TMPLOGS="logs.zip"
-TMPPLOTS="plots.zip"
+SRCLOGS="https://zenodo.org/record/5635607/files/logs.tar.gz?download=1"
+SRCPLOTS="https://zenodo.org/record/5635607/files/plots.tar.gz?download=1"
+TMPLOGS="logs.tar.gz"
+TMPPLOTS="plots.tar.gz"
 
 [ ! -e results ] && mkdir results
 
-wget -O ${TMPDIR}/${TMPLOGS} ${SRCLOGS}
-unzip ${TMPDIR}/${TMPLOGS} -d ${TMPDIR}
-cp -R ${TMPDIR}/logs ${BASEDIR}/results/
+wget -O results/${TMPLOGS} ${SRCLOGS}
+tar xfvz results/${TMPLOGS} -C results/
 
-wget -O ${TMPDIR}/${TMPPLOTS} ${SRCPLOTS}
-unzip ${TMPDIR}/${TMPPLOTS} -d ${TMPDIR}
-cp -R ${TMPDIR}/plots ${BASEDIR}/results/
-
-rm -rf ${TMPDIR}
+wget -O results/${TMPPLOTS} ${SRCPLOTS}
+tar xfvz results/${TMPPLOTS} -C results/
