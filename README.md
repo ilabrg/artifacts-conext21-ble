@@ -45,7 +45,7 @@ The following table shows the mapping between figures in the paper and the scrip
 | Fig. 7 (a)  | `tools/fig_app_pdr.py` |
 | Fig. 7 (b)  | `tools/fig_app_cdf_linetree.py` |
 | Fig. 8 (a)  | `tools/fig_app_cdf_itvlcmp.py` |
-| Fig. 8 (b)  | `tools/ig_app_cdf_prodcmp_75ms.py` |
+| Fig. 8 (b)  | `tools/fig_app_cdf_prodcmp_75ms.py` |
 | Fig. 9 (a)  | `tools/fig_app_pdr_load_100ms.py` |
 | Fig. 9 (b)  | `tools/fig_app_pdr_load_i2s.py` |
 | Fig. 10 (a) | `tools/fig_app_pdr_154.py` |
